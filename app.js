@@ -4,6 +4,7 @@ const morgan = require('morgan');
 const helmet = require('helmet');
 const express = require('express');
 const logger = require('./logger');
+const debug = require('debug')('app:startup');
 const app = express();
 
 app.use(express.json());
@@ -12,13 +13,9 @@ app.use(express.static('public'));
 app.use(helmet());
 
 
-// COnfiguration
-console.log('Application Name: ' + config.get('name'));
-console.log('Mail Name: ' + config.get('mail.host'));
-console.log('Mail Password: ' + config.get('mail.password'));
-
 if (app.get('env') == 'development') {
     app.use(morgan('tiny'));
+    debug('Morgan enabled...');
 }
 
 
