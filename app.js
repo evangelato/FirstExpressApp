@@ -1,16 +1,26 @@
 const Joi = require('joi');
+const config = require('config');
 const morgan = require('morgan');
 const helmet = require('helmet');
 const express = require('express');
 const logger = require('./logger');
 const app = express();
 
-
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static('public'));
 app.use(helmet());
-app.use(morgan('tiny'));
+
+
+// COnfiguration
+console.log('Application Name: ' + config.get('name'));
+console.log('Mail Name: ' + config.get('mail.host'));
+console.log('Mail Password: ' + config.get('mail.password'));
+
+if (app.get('env') == 'development') {
+    app.use(morgan('tiny'));
+}
+
 
 app.use(logger);
 
